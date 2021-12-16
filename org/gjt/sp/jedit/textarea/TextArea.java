@@ -149,6 +149,20 @@ public abstract class TextArea extends JPanel
 		// (eg, from the recent file list)
 		focusedComponent = this;
 	} //}}}
+	
+	//{{{ ToggleScrollBar() method
+	public void ToggleScrollBar() {
+		if(scrollBarState) {
+			remove(verticalBox);
+			remove(horizontalBox);
+			scrollBarState = false;
+		}
+		else {
+			add(ScrollLayout.RIGHT, verticalBox);
+			add(ScrollLayout.BOTTOM, horizontalBox);
+			scrollBarState = true;
+		}
+	}
 
 	//{{{ getFoldPainter() method
 	public FoldPainter getFoldPainter()

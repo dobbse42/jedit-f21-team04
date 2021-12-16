@@ -965,6 +965,12 @@
 		BufferPrinter1_7.print(view, buffer);
 	</CODE>
 </ACTION>
+	
+<ACTION NAME = "Toggle-Show-Scrollbar">
+	<CODE>
+		textArea.ToggleScrollBar();
+	</CODE>
+</ACTION>
 
 <ACTION NAME="print.toggle-show-page-breaks">
 	<CODE>

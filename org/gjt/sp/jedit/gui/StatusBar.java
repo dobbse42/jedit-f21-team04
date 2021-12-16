@@ -386,17 +386,50 @@ public class StatusBar extends JPanel
 				buf.append('/');
 				buf.append(bufferLength);
 				buf.append(')');
+
+				String fullText = buffer.getText(0, bufferLength);
+				String[] newBuf = fullText.split("\\s+");
+				String newBuf2 = fullText.substring(caretPosition);
+				String[] currWord = newBuf2.split("\\s+");
+
+				buf.append('(');
+				buf.append(newBuf.length - currWord.length + 1);
+				buf.append('/');
+				buf.append(newBuf.length);
+				buf.append(')');
 			}
 			else if (jEdit.getBooleanProperty("view.status.show-caret-offset", true))
 			{
 				buf.append('(');
 				buf.append(caretPosition);
 				buf.append(')');
+
+				String fullText = buffer.getText(0, bufferLength);
+				String[] newBuf = fullText.split("\\s+");
+				String newBuf2 = fullText.substring(caretPosition);
+				String[] currWord = newBuf2.split("\\s+");
+
+				buf.append('(');
+				buf.append(newBuf.length - currWord.length + 1);
+				buf.append('/');
+				buf.append(newBuf.length);
+				buf.append(')');
 			}
 			else if (jEdit.getBooleanProperty("view.status.show-caret-bufferlength", true))
 			{
 				buf.append('(');
 				buf.append(bufferLength);
+				buf.append(')');
+
+				String fullText = buffer.getText(0, bufferLength);
+				String[] newBuf = fullText.split("\\s+");
+				String newBuf2 = fullText.substring(caretPosition);
+				String[] currWord = newBuf2.split("\\s+");
+
+				buf.append('(');
+				buf.append(newBuf.length - currWord.length + 1);
+				buf.append('/');
+				buf.append(newBuf.length);
 				buf.append(')');
 			}
 

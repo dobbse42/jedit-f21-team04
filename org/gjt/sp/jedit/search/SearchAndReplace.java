@@ -663,36 +663,47 @@ loop:		for(;;)
 			matcher.setNoWordSep(noWordSep);
 		}
 		SearchMatcher.Match match = matcher.nextMatch(text,
-			startOfLine,endOfLine,firstTime,reverse);
-		if(match != null)
+				startOfLine,endOfLine,firstTime,reverse);
+
+		boolean isFound = false;
+
+		while(match != null)
 		{
 			jEdit.commitTemporary(buffer);
 			view.setBuffer(buffer);
 			JEditTextArea textArea = view.getTextArea();
-
 			if(reverse)
 			{
-				textArea.setSelection(new Selection.Range(
-					start - match.end,
-					start - match.start));
+				textArea.addToSelection(new Selection.Range(
+						start - match.end,
+						start - match.start));
 				// make sure end of match is visible
 				textArea.scrollTo(start - match.start,false);
 				textArea.moveCaretPosition(start - match.end);
+				start = start - match.start-1;
+				text = new ReverseCharSequence(buffer.getSegment(0,start));
+				startOfLine = true;
+				endOfLine = (buffer.getLineEndOffset(
+						buffer.getLineOfOffset(start)) - 1 == start);
 			}
 			else
 			{
-				textArea.setSelection(new Selection.Range(
-					start + match.start,
-					start + match.end));
+				textArea.addToSelection(new Selection.Range(
+						start + match.start,
+						start + match.end));
 				textArea.moveCaretPosition(start + match.end);
 				// make sure start of match is visible
 				textArea.scrollTo(start + match.start,false);
+				start = start + match.end;
+				text = buffer.getSegment(start,buffer.getLength() - start);
+				startOfLine = (buffer.getLineStartOffset(
+						buffer.getLineOfOffset(start)) == start);
+				endOfLine = true;
 			}
-
-			return true;
+			match = matcher.nextMatch(text,startOfLine,endOfLine,firstTime,reverse);
+			isFound = true;
 		}
-		else
-			return false;
+		return isFound;
 	} //}}}
 
 	//{{{ replace() method
